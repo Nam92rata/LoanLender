@@ -5,6 +5,9 @@ import Input from '@material-ui/core/Input';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import axios from 'axios';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 class App extends Component{
   constructor(props){
@@ -60,22 +63,29 @@ class App extends Component{
   render(){
     return (
       <div>
-        <h2>History</h2>
-        <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={this.state.selectedTab}
-        onChange={this.handleChange}
-        aria-label="Vertical tabs example"
-      >
-        <Tab label="Amount1" value="one"  />
-        <Tab label="Amount2" value="two"/>
-        <Tab label="Amount 3" value="three"/>
-        
-      </Tabs>
-     
-      
-        <p>Loan Amount</p>
+        <div class="grid-container">
+          <div class="item1">
+          <AppBar position="static">
+            <Toolbar variant="dense">          
+              <h2 style={{textAlign:'center',margin:'auto'}}>Smart Loan Lender</h2>
+            </Toolbar>
+          </AppBar>
+          </div>
+          <div class="item2">
+            <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={this.state.selectedTab}
+            onChange={this.handleChange}
+            aria-label="Vertical tabs example"
+            >
+            <Tab label="Amount1" value="one"  />
+            <Tab label="Amount2" value="two"/>
+            <Tab label="Amount 3" value="three"/>        
+            </Tabs>
+          </div>
+          <div class="item3">
+          <p>Loan Amount</p>
         <Slider
               value={this.state.amount}
               name="amount"
@@ -90,8 +100,9 @@ class App extends Component{
           margin="dense"
           value={this.state.amount}         
         />
-
-        <p>Loan Duration</p>
+          </div>  
+          <div class="item4">
+          <p>Loan Duration</p>
         <Slider
               value={this.state.duration}
               name="duration"
@@ -106,17 +117,28 @@ class App extends Component{
           margin="dense"
           value={this.state.duration}          
         />
-
+          </div>
+          <div class="item5">
+            
         <p>Interest Rate</p>
         <Input
           margin="dense"
           value={this.state.interest}          
         />
-        <p>Monthly Payment</p>
+          </div>
+          <div class="item6">
+          <p>Monthly Payment</p>
         <Input
           margin="dense"
           value={this.state.emi}          
         />
+          </div>
+        </div>
+
+        
+       
+
+        
         
       </div>
     );
