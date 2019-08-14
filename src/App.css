@@ -84,3 +84,7 @@ body {
 .tab-area:nth-child(odd) {
   background-color:lavender;  
 }
+
+.PrivateTabIndicator-colorSecondary-67 {
+  opacity: 0;
+}

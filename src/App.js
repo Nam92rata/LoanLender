@@ -13,8 +13,8 @@ class App extends Component{
     this.state={
       amount: 500,
       duration: 6,
-      interest: 0,
-      emi :0,
+      interest: 0.25,
+      emi :93,
       selectedTab: "",
       history: JSON.parse(localStorage.getItem("history")) || []       
     }
