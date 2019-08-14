@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
 import './App.css';
 import Slider from '@material-ui/core/Slider';
-import Input from '@material-ui/core/Input';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import axios from 'axios';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Sidebar from './Sidebar';
 
 class App extends Component{
   constructor(props){
@@ -19,20 +16,16 @@ class App extends Component{
       interest: 0,
       emi :0,
       selectedTab: "",
-      history: JSON.parse(localStorage.getItem("history")) || []
+      history: JSON.parse(localStorage.getItem("history")) || []       
     }
   }
+  
   calcInterestAndEmi(amount,duration){
-    console.log(amount,duration)
     var item ={"amount":amount,"duration":duration}
-    this.setState({history:[item,...this.state.history]},()=>{
+    this.setState({amount:amount,duration:duration,history:[item,...this.state.history]},()=>{      
       var hist = JSON.stringify(this.state.history)
       localStorage.setItem("history",hist)
     });
-    
-    // localStorage.setItem("amount", amount);
-    // localStorage.setItem("duration", duration);
-    // this.setState({amount:amount,duration:duration})
     axios.get('https://ftl-frontend-test.herokuapp.com/interest?amount='+amount+'&numMonths='+duration)
     .then(res=>{
       this.setState({
@@ -44,142 +37,101 @@ class App extends Component{
       console.log(err)
     })
   }
-  handleAmountSliderChange = (event, newValue) => { 
-    console.log("Nam ",newValue)   
-   this.setState({amount:newValue},()=>{this.calcInterestAndEmi(this.state.amount,this.state.duration)})
-
-    
+  handleAmountSliderChange = (event, newValue) => {    
+  this.calcInterestAndEmi(newValue,this.state.duration)
   }
-  handleDurationSliderChange = (event, newValue) => {    
-    this.setState({duration:newValue},()=>{this.calcInterestAndEmi(this.state.amount,this.state.duration)})
-    // this.state.history.push({amount:this.state.amount,duration:newValue})
-    
+  handleDurationSliderChange = (event, newValue) => {  
+    this.calcInterestAndEmi(this.state.amount,newValue)  
   }
   handleChange = (event,val) => {
-    console.log(val)
-      this.setState({amount:val.amount,duration:val.duration},
-          ()=>{this.calcInterestAndEmi(this.state.amount,this.state.duration)});
-          
+      this.setState({selectedTab:val, amount:val.amount,duration:val.duration},
+          ()=>{this.calcInterestAndEmi(this.state.amount,this.state.duration)});          
   }
   render(){
     return (
       <div>
         <div className="grid-container">
           <div className="item1">
-            {/* <h2 style={{textAlign:'center',margin:'auto'}}>Smart Loan Lender</h2> */}
           <AppBar position="static">
             <Toolbar variant="dense">          
-              <h2 style={{textAlign:'center',margin:'auto'}}>Smart Loan Lender</h2>
+              <h2 className="appbar">Smart Loan Lender</h2>
             </Toolbar>
           </AppBar>
           </div>
           <div className="item2">
-            <p>History</p>
-            <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={this.state.selectedTab}
-            onChange={this.handleChange}
-            aria-label="Vertical tabs example"
-            >
-            {this.state.history?this.state.history.map(el=>{
-              return (
-                <Tab label={"Amount:"+el.amount +"  "+ el.duration} value={el}  />
-              )
-            }):null}
-            {/* <Tab label="Amount1" value="one"  />
-            <Tab label="Amount2" value="two"/>
-            <Tab label="Amount 3" value="three"/>         */}
-            </Tabs>
+            <Sidebar val={this.state.history} tab={this.state.selectedTab} func={this.handleChange}/>
           </div>
+
           <div className="item3">
-          <p>Loan Amount</p>
-        <Slider
-              value={this.state.amount}
+          <p className="text-header">Loan Amount</p>          
+          <Slider
+              value={this.state.amount?this.state.amount:500}
               name="amount"
               onChange={this.handleAmountSliderChange}
               min={500}
               max={5000}
               step={10}
-              style={{width:'30%'}}
+              style={{width:'30%',color:'crimson'}}
               aria-labelledby="input-slider"
             />
             <br/>
             <TextField
-              id="outlined-input-amount"
-              value={this.state.amount+'$'}
+              className="text-field"
+              id="outlined-input-amount"              
+              value={this.state.amount?this.state.amount+'$':""}
               name="amount"
               margin="dense"
               variant="outlined"
-            />
-        {/* <Input
-          margin="dense"
-          value={this.state.amount}   
-          style={{width:'30%'}}      
-        /> */}
+            />        
           </div>  
+
           <div className="item4">
-          <p>Loan Duration</p>
-        <Slider
-              value={this.state.duration}
+          <p className="text-header">Loan Duration</p>
+          <Slider
+              value={this.state.duration?this.state.duration:6}
               name="duration"
               onChange={this.handleDurationSliderChange}
               min={6}
               max={24}
               step={1}
-              style={{width:'30%'}}
+              style={{width:'30%',color:'crimson'}}
               aria-labelledby="input-slider"
             />
             <br/>
             <TextField
+              className="text-field"
               id="outlined-input-duration"
-              value={this.state.duration}
+              value={this.state.duration?this.state.duration+" months":""}
               name="duration"
               margin="dense"
               variant="outlined"
-            />
-        {/* <Input
-          margin="dense"
-          value={this.state.duration}
-          style={{width:'30%'}}          
-        /> */}
+            />        
           </div>
-          <div className="item5">
-            
-        <p>Interest Rate</p>
-        <TextField
+
+          <div className="item5">            
+          <p className="text-header">Interest Rate</p>
+          <TextField
+              className="text-field"
               id="outlined-interest"
-              value={this.state.interest}
+              value={this.state.interest+' %'}
               name="interest"
               margin="dense"
               variant="outlined"
-            />
-        {/* <Input
-          margin="dense"
-          value={this.state.interest}          
-        /> */}
+            />        
           </div>
+
           <div className="item6">
-          <p>Monthly Payment</p>
+          <p className="text-header">Monthly Payment</p>
           <TextField
+              className="text-field"
               id="outlined-emi"
-              value={this.state.emi}
+              value={this.state.emi+"$"}
               name="emi"
               margin="dense"
               variant="outlined"
             />
-        {/* <Input
-          margin="dense"
-          value={this.state.emi}          
-        /> */}
           </div>
         </div>
-
-        
-       
-
-        
-        
       </div>
     );
   }
