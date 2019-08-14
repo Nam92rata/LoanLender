@@ -67,7 +67,7 @@ class App extends Component{
           <Slider
               value={this.state.amount?this.state.amount:500}
               name="amount"
-              onChange={this.handleAmountSliderChange}
+              onChangeCommitted={this.handleAmountSliderChange}
               min={500}
               max={5000}
               step={10}
