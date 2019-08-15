@@ -74,8 +74,17 @@ body {
   font-weight: bold;
   color: crimson;
 }
+.text-header-result {
+  font-family: 'Josefin Sans';
+  font-weight: bold;
+  color: blue;
+}
 .text-field{
-  width: 40%;
+  width: 80%;
+  background-color: bisque;
+}
+.text-field-result{
+  width: 50%;
   background-color: bisque;
 }
 .tab-area:nth-child(even) {

@@ -35,7 +35,7 @@ class Sidebar extends Component {
                     aria-label="Vertical tabs example"
                 >
                 <Tab label={"History"} disabled value={"History"}  />
-                    {this.props.val?this.props.val.slice(0,10).map((el,i)=>{
+                    {this.props.val?this.props.val.slice(0,5).map((el,i)=>{
                     return (
                     <Tab className="tab-area" key={i} label={el.amount +"$ for "+ el.duration+" months"} value={el}  />
                     )

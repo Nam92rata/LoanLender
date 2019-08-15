@@ -71,7 +71,7 @@ class App extends Component{
               min={500}
               max={5000}
               step={10}
-              style={{width:'30%',color:'crimson'}}
+              style={{width:'60%',color:'crimson'}}
               aria-labelledby="input-slider"
             />
             <br/>
@@ -94,7 +94,7 @@ class App extends Component{
               min={6}
               max={24}
               step={1}
-              style={{width:'30%',color:'crimson'}}
+              style={{width:'60%',color:'crimson'}}
               aria-labelledby="input-slider"
             />
             <br/>
@@ -109,9 +109,9 @@ class App extends Component{
           </div>
 
           <div className="item5">            
-          <p className="text-header">Interest Rate</p>
+          <p className="text-header-result">Interest Rate</p>
           <TextField
-              className="text-field"
+              className="text-field-result"
               id="outlined-interest"
               value={this.state.interest+' %'}
               name="interest"
@@ -121,9 +121,9 @@ class App extends Component{
           </div>
 
           <div className="item6">
-          <p className="text-header">Monthly Payment</p>
+          <p className="text-header-result">Monthly Payment</p>
           <TextField
-              className="text-field"
+              className="text-field-result"
               id="outlined-emi"
               value={this.state.emi+"$"}
               name="emi"
